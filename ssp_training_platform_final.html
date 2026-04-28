@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة تدريب الأمن — منتزه الرمال الرياضي</title>
+<style>
+:root{--green:#1a5c36;--green-light:#e8f5ed;--red:#c0392b;--red-light:#fdecea;--yellow-light:#fef9e7;--border:#e5e7eb;--text:#111827;--muted:#6b7280;--bg:#f0f2f5;--white:#fff;--r:10px;--rs:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;min-height:-webkit-fill-available}
+.screen{display:none;max-width:480px;margin:0 auto;min-height:100vh;min-height:-webkit-fill-available;background:var(--bg)}
+.screen.active{display:block}
+.hdr{background:var(--green);color:#fff;padding:1rem 1.25rem 1.1rem;position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+.back-btn{background:rgba(255,255,255,0.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr h1{font-size:15px;font-weight:600;flex:1}
+.hdr-sub{font-size:11px;opacity:.7;margin-right:42px}
+.bot-nav{position:fixed;bottom:0;right:0;left:0;max-width:480px;margin:0 auto;background:#fff;border-top:.5px solid var(--border);display:flex;z-index:200;height:52px}
+.nav-btn{flex:1;padding:6px 0 4px;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:var(--muted)}
+.nav-btn.active{color:var(--green)}
+.nav-btn svg{width:17px;height:17px}
+.content{padding:1rem 1rem 55px}
+.home-hero{background:var(--green);color:#fff;padding:1.5rem 1.25rem;text-align:center}
+.home-hero h1{font-size:18px;font-weight:600;margin-bottom:6px}
+.home-hero p{font-size:12px;opacity:.8;line-height:1.6}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:11px;margin-top:10px}
+.sec-title{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:1.2rem 0 .5rem}
+.card{background:#fff;border-radius:var(--r);border:.5px solid var(--border);padding:1rem;margin-bottom:10px;cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:var(--green)}
+.card-row{display:flex;align-items:center;gap:12px}
+.card-icon{width:40px;height:40px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.card-info{flex:1}
+.card-title{font-size:13px;font-weight:600}
+.card-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.badge-done{background:var(--green-light);color:var(--green)}
+.badge-new{background:#f3f4f6;color:var(--muted)}
+.step{background:#fff;border-radius:var(--r);border:.5px solid var(--border);padding:1rem;margin-bottom:10px;display:flex;gap:12px}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-body{flex:1}
+.step-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.step-text{font-size:12px;color:var(--muted);line-height:1.75}
+.alert{border-radius:var(--rs);padding:10px 12px;margin-bottom:10px;font-size:12px;line-height:1.6}
+.alert-w{background:var(--yellow-light);border:.5px solid #f0c050;color:#7d6008}
+.alert-t{background:var(--green-light);border:.5px solid #a8d5b5;color:#145029}
+.alert-d{background:var(--red-light);border:.5px solid #f5c6c6;color:#8b1a1a}
+.done-btn{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;margin-top:1rem;font-family:inherit}
+.done-btn:hover{background:#145029}
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.5rem}
+.area-card{background:#fff;border-radius:var(--r);border:.5px solid var(--border);padding:1.25rem;text-align:center;cursor:pointer;transition:all .15s}
+.area-card:hover{border-color:var(--green);background:var(--green-light)}
+.area-card .icon{font-size:28px;margin-bottom:8px}
+.area-card .name{font-size:13px;font-weight:600}
+.area-card .count{font-size:11px;color:var(--muted);margin-top:2px}
+.loc-card{background:#fff;border-radius:var(--r);border:.5px solid var(--border);padding:1rem;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s}
+.loc-card:hover{border-color:var(--green)}
+.loc-code{background:var(--green);color:#fff;border-radius:var(--rs);padding:4px 10px;font-size:11px;font-weight:600;flex-shrink:0;min-width:70px;text-align:center}
+.loc-info{flex:1}
+.loc-name{font-size:13px;font-weight:600}
+.loc-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.ref-section{background:#fff;border-radius:var(--r);border:.5px solid var(--border);margin-bottom:12px;overflow:hidden}
+.ref-hdr{background:var(--green);color:#fff;padding:10px 14px;font-size:13px;font-weight:600}
+.ref-row{display:flex;align-items:center;padding:9px 14px;border-bottom:.5px solid var(--border);gap:10px}
+.ref-row:last-child{border-bottom:none}
+.ref-code{font-size:12px;font-weight:700;color:var(--green);min-width:75px;flex-shrink:0}
+.ref-meaning{font-size:12px;color:var(--text);flex:1}
+.ref-en{font-size:10px;color:var(--muted);margin-top:1px}
+.code-pill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;min-width:95px;text-align:center;flex-shrink:0}
+.prog-wrap{background:rgba(255,255,255,.2);border-radius:4px;height:5px;margin-top:10px;overflow:hidden}
+.prog-fill{height:100%;background:#fff;border-radius:4px;transition:width .4s}
+.prog-label{font-size:11px;opacity:.75;margin-top:4px}
+.duty-item{background:#fff;border-radius:var(--r);border-right:3px solid var(--green);padding:10px 14px;margin-bottom:8px}
+.duty-num{font-size:11px;color:var(--green);font-weight:600;margin-bottom:2px}
+.duty-text{font-size:12px;line-height:1.65}
+.duty-code{font-size:11px;color:var(--muted);margin-top:3px}
+.tabs{display:flex;background:#fff;border-radius:var(--r);border:.5px solid var(--border);padding:4px;margin-bottom:1rem;gap:4px}
+.tab{flex:1;padding:8px;border:none;background:transparent;border-radius:var(--rs);font-size:11px;font-weight:500;cursor:pointer;color:var(--muted);font-family:inherit}
+.tab.active{background:var(--green);color:#fff}
+/* SCHEDULE */
+.shift-sel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.shift-btn{background:#fff;border:.5px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center;cursor:pointer;transition:all .15s}
+.shift-btn:hover,.shift-btn.active{border-color:var(--green);background:var(--green-light)}
+.shift-btn .s-name{font-size:16px;font-weight:700;color:var(--green)}
+.shift-btn .s-desc{font-size:11px;color:var(--muted);margin-top:4px}
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;background:#fff;border-radius:var(--r);padding:10px 14px;border:.5px solid var(--border)}
+.month-nav button{background:var(--green-light);border:none;color:var(--green);width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;font-weight:700}
+.month-title{font-size:14px;font-weight:600}
+.cal-grid{background:#fff;border-radius:var(--r);border:.5px solid var(--border);overflow:hidden;margin-bottom:10px}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);background:#f3f4f6}
+.cal-dow div{text-align:center;padding:6px 2px;font-size:10px;font-weight:600;color:var(--muted)}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-day{padding:4px 2px;text-align:center;border-top:.5px solid var(--border);min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.cal-day .dn{font-size:11px;font-weight:500}
+.cal-day .ds{font-size:9px;font-weight:600;border-radius:3px;padding:1px 3px;margin-top:1px}
+.cal-day .dh{font-size:8px;color:var(--red);margin-top:1px;line-height:1.2}
+.cal-day.empty{background:#fafafa}
+.ds.night{background:#1e3a5f;color:#fff}
+.ds.morning{background:#145029;color:#fff}
+.ds.afternoon{background:#7a4f00;color:#fff}
+.ds.off{background:#e5e7eb;color:#666}
+.cal-day.today .dn{background:var(--green);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.footer{text-align:center;padding:1rem;font-size:11px;color:var(--muted);border-top:.5px solid var(--border);margin-top:1rem}
+.footer strong{color:var(--green)}
+
+.report-card{background:#fff;border-radius:var(--r);border:.5px solid var(--border);padding:1rem;margin-bottom:10px;cursor:pointer;transition:border-color .15s}
+.report-card:hover{border-color:var(--green)}
+.report-card-row{display:flex;align-items:center;gap:12px}
+.report-cat{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:1.2rem 0 .5rem}
+.rfield{margin-bottom:1rem}
+.rfield label{display:block;font-size:12px;font-weight:600;color:var(--text);margin-bottom:5px}
+.rfield input,.rfield select,.rfield textarea{width:100%;padding:9px 11px;font-family:inherit;font-size:13px;border:.5px solid var(--border);border-radius:var(--rs);background:#fff;color:var(--text);outline:none;direction:rtl}
+.rfield input:focus,.rfield select:focus,.rfield textarea:focus{border-color:var(--green)}
+.rfield textarea{min-height:80px;resize:vertical}
+.copy-btn{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;margin-top:1rem;font-family:inherit}
+.copy-btn:hover{background:#145029}
+.copy-btn.copied{background:#145029}
+.share-btn{width:100%;padding:13px;background:#25d366;color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;font-family:inherit}
+.reset-btn{width:100%;padding:10px;background:transparent;color:var(--muted);border:.5px solid var(--border);border-radius:var(--r);font-size:13px;cursor:pointer;margin-top:8px;font-family:inherit}
+.preview-box{background:#f8f9fa;border:.5px solid var(--border);border-radius:var(--rs);padding:12px;font-size:12px;line-height:1.8;white-space:pre-wrap;direction:rtl;margin-top:1rem;display:none}
+.checkbox-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.checkbox-row input{width:16px;height:16px;accent-color:var(--green);flex-shrink:0}
+.checkbox-row label{font-size:12px;color:var(--text)}
+.contact-btn{position:absolute;top:10px;left:10px;background:#1a6fa0;border:2px solid rgba(255,255,255,0.6);color:#fff;width:48px;height:48px;border-radius:50%;font-size:11px;font-weight:700;cursor:pointer;z-index:101;box-shadow:0 3px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2}
+.contact-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center}
+.contact-modal.open{display:flex}
+.contact-box{background:#fff;border-radius:var(--r);padding:1.5rem;margin:1rem;width:100%;max-width:320px}
+.contact-box h3{font-size:15px;font-weight:600;margin-bottom:1rem;color:var(--text)}
+.contact-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--green-light);border-radius:var(--rs);margin-bottom:8px;cursor:pointer;text-decoration:none}
+.contact-item span{font-size:13px;color:var(--green);font-weight:500}
+.contact-close{width:100%;padding:10px;background:var(--green);color:#fff;border:none;border-radius:var(--rs);font-size:13px;cursor:pointer;margin-top:8px;font-family:inherit}
+.home-hero{position:relative}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div class="home-hero">
+    <button class="contact-btn" onclick="document.getElementById('contactModal').classList.add('open')">تواصل</button>
+    <div style="margin-bottom:10px"><img src="https://sportsboulevard.sa/images/Logo.svg" style="height:40px;filter:brightness(0) invert(1);opacity:0.9" alt="Sports Boulevard"></div>
+    <div style="font-size:11px;opacity:.7;margin-bottom:6px">منتزه الرمال الرياضي — المسار الرياضي</div>
+    <h1>منصة تدريب الأمن</h1>
+    <p>SSP Security Operations — وشاح الوطن</p>
+    <div class="hero-badge">🛡️ دليل الموظف الجديد</div>
+    <div style="font-size:10px;opacity:0.6;margin-top:8px">Waleed Abdullah Almutairi | English Speaker</div>
+    <div class="prog-wrap"><div class="prog-fill" id="home-prog" style="width:0%"></div></div>
+    <div class="prog-label" id="home-prog-label">0 من 5 وحدات مكتملة</div>
+  </div>
+  <div class="content">
+    <div class="sec-title">التدريب العام</div>
+    <div id="general-modules-list"></div>
+    <div class="sec-title">توجيهات المواقع</div>
+    <div class="card" onclick="showAreaSelect()">
+      <div class="card-row">
+        <div class="card-icon" style="background:#e8f4fb">🗺️</div>
+        <div class="card-info"><div class="card-title">اختر منطقتك وموقعك</div><div class="card-desc">الشمالية والجنوبية — 9 مواقع</div></div>
+        <div style="color:var(--muted);font-size:16px">←</div>
+      </div>
+    </div>
+    <div class="sec-title">المهام العامة</div>
+    <div class="card" onclick="pushGo('common')">
+      <div class="card-row">
+        <div class="card-icon" style="background:#fff3cd">📋</div>
+        <div class="card-info"><div class="card-title">المهام العامة لجميع المواقع</div><div class="card-desc">واجبات مشتركة إلزامية</div></div>
+        <div style="color:var(--muted);font-size:16px">←</div>
+      </div>
+    </div>
+  </div>
+  
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+<div class="bot-nav">
+    <button class="nav-btn active" onclick="navTo('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</button>
+    <button class="nav-btn" onclick="navTo('schedule')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول</button>
+    <button class="nav-btn" onclick="navTo('reference')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>الرموز</button>
+    <button class="nav-btn" onclick="navTo('emergency')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>طوارئ</button>
+    <button class="nav-btn" onclick="navTo('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>نماذج</button>
+  </div>
+</div>
+
+<!-- MODULE DETAIL -->
+<div id="screen-module" class="screen">
+  <div class="hdr"><div class="hdr-top"><button class="back-btn" onclick="goBack()">→</button><h1 id="mod-title"></h1></div></div>
+  <div class="content" id="mod-content"></div>
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+
+</div>
+
+<!-- AREA SELECT -->
+<div id="screen-area" class="screen">
+  <div class="hdr"><div class="hdr-top"><button class="back-btn" onclick="goBack()">→</button><h1>اختر المنطقة</h1></div><div class="hdr-sub">منتزه الرمال الرياضي</div></div>
+  <div class="content">
+    <div class="area-grid">
+      <div class="area-card" onclick="showLocations('north')"><div class="icon">⬆️</div><div class="name">North Area</div><div class="name" style="font-size:12px">الشمالية</div><div class="count">6 مواقع</div></div>
+      <div class="area-card" onclick="showLocations('south')"><div class="icon">⬇️</div><div class="name">South Area</div><div class="name" style="font-size:12px">الجنوبية</div><div class="count">4 مواقع</div></div>
+    </div>
+    <div class="alert alert-t" style="margin-top:1rem">💡 اختر منطقتك ثم موقعك لتطلع توجيهاتك الخاصة</div>
+  </div>
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+
+</div>
+
+<!-- LOCATIONS -->
+<div id="screen-locations" class="screen">
+  <div class="hdr"><div class="hdr-top"><button class="back-btn" onclick="goBack()">→</button><h1 id="loc-area-title"></h1></div></div>
+  <div class="content" id="locations-list"></div>
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+
+</div>
+
+<!-- LOCATION DETAIL -->
+<div id="screen-location" class="screen">
+  <div class="hdr"><div class="hdr-top"><button class="back-btn" onclick="goBack()">→</button><h1 id="loc-title"></h1></div><div class="hdr-sub" id="loc-code-display"></div></div>
+  <div class="content" id="loc-content"></div>
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+
+</div>
+
+<!-- COMMON DUTIES -->
+<div id="screen-common" class="screen">
+  <div class="hdr"><div class="hdr-top"><button class="back-btn" onclick="goBack()">→</button><h1>المهام العامة</h1></div><div class="hdr-sub">واجبات مشتركة — جميع المواقع</div></div>
+  <div class="content">
+    <div class="alert alert-d">🚨 هذه المهام إلزامية لجميع الموظفين — المخالفة تستوجب المحاسبة الفورية</div>
+    <div class="sec-title">الحضور والاستلام</div>
+    <div class="duty-item"><div class="duty-num">01</div><div class="duty-text">الحضور قبل بدء الوردية بـ <strong>15 دقيقة</strong> لاستلام الموقع من الزميل — التأخير يستوجب المحاسبة</div></div>
+    <div class="duty-item"><div class="duty-num">02</div><div class="duty-text">إذا تأخر المستلم عنك: لا تغادر الموقع — ارفع فوراً للـ Area Supervisor أو Zero Bravo عبر اللاسلكي</div><div class="duty-code">رمز: Area Name 01 أو 0-Bravo</div></div>
+    <div class="duty-item"><div class="duty-num">03</div><div class="duty-text">عند الاستلام: تأكد من الموقع وارفع إشارة للمشرف ومساعده مع أي ملاحظات</div><div class="duty-code">رمز: 10-8 (تأكيد الموقع)</div></div>
+    <div class="duty-item"><div class="duty-num">04</div><div class="duty-text">ارفع تقرير الاستلام على قروب العمليات فور وصولك لموقعك</div></div>
+    <div class="duty-item"><div class="duty-num">05</div><div class="duty-text">عند التسليم: أبلغ الموظف القادم بجميع الملاحظات والأحداث. لا تغادر قبل وصوله.</div></div>
+    <div class="sec-title">القيافة والمظهر</div>
+    <div class="duty-item"><div class="duty-num">06</div><div class="duty-text">الزي الرسمي كامل ونظيف بالطريقة الصحيحة طوال الخدمة — بما يشمل <strong>شوز أسود</strong> و<strong>كاب</strong></div></div>
+    <div class="sec-title">الالتزام بالموقع</div>
+    <div class="duty-item"><div class="duty-num">07</div><div class="duty-text"><strong>ترك الموقع بدون إذن مسبق مخالفة إدارية صريحة تستوجب المحاسبة الفورية.</strong> في حال الحاجة للراحة ارفع إشارة أولاً وانتظر الموافقة.</div><div class="duty-code">رمز الراحة: 10-13 (طلب راحة 15 دقيقة)</div></div>
+    <div class="sec-title">جهاز اللاسلكي (البرافو)</div>
+    <div class="duty-item"><div class="duty-num">08</div><div class="duty-text">جهاز البرافو معك في <strong>جميع الأوقات</strong> — ممنوع تركه في أي مكان مهما كانت الظروف</div></div>
+    <div class="duty-item"><div class="duty-num">09</div><div class="duty-text">تأكد من شحن الجهاز ومن أنه يعمل بشكل صحيح قبل بدء كل وردية</div></div>
+    <div class="sec-title">التسلسل القيادي</div>
+    <div class="duty-item"><div class="duty-num">10</div><div class="duty-text">Area Supervisor — قائد المنطقة: <strong>Area Name 01</strong></div></div>
+    <div class="duty-item"><div class="duty-num">11</div><div class="duty-text">Zero Bravo — مشرف عام (الجنرال سوبرفايزر): <strong>0-Bravo</strong></div></div>
+    <div class="duty-item"><div class="duty-num">12</div><div class="duty-text">مركز العمليات الأمنية: <strong>SCC</strong></div></div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="screen-schedule" class="screen">
+  <div class="hdr"><div class="hdr-top"><h1>جداول الورديات 2026</h1></div><div class="hdr-sub">Shift A / B / C / D — منتزه الرمال الرياضي</div></div>
+  <div class="content">
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#1e3a5f"></div>ليل 22:00–06:00</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#145029"></div>صباح 06:00–14:00</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#7a4f00"></div>عصر 14:00–22:00</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#e5e7eb"></div>إجازة</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--red);border-radius:50%"></div>إجازة رسمية</div>
+    </div>
+    <div class="shift-sel" id="shift-sel"></div>
+    <div class="month-nav">
+      <button onclick="prevMonth()">‹</button>
+      <div class="month-title" id="month-title"></div>
+      <button onclick="nextMonth()">›</button>
+    </div>
+    <div id="cal-container"></div>
+  </div>
+  
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+<div class="bot-nav">
+    <button class="nav-btn" onclick="navTo('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</button>
+    <button class="nav-btn active" onclick="navTo('schedule')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول</button>
+    <button class="nav-btn" onclick="navTo('reference')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>الرموز</button>
+    <button class="nav-btn" onclick="navTo('emergency')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>طوارئ</button>
+    <button class="nav-btn" onclick="navTo('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>نماذج</button>
+  </div>
+</div>
+
+<!-- REFERENCE -->
+<div id="screen-reference" class="screen">
+  <div class="hdr"><div class="hdr-top"><h1>رموز اللاسلكي</h1></div><div class="hdr-sub">Security Communication Codes</div></div>
+  <div class="content">
+    <div class="tabs">
+      <button class="tab active" onclick="refTab('10codes',this)">10-Codes</button>
+      <button class="tab" onclick="refTab('locations',this)">المواقع</button>
+      <button class="tab" onclick="refTab('authority',this)">الجهات</button>
+    </div>
+    <div id="ref-10codes">
+      <div class="ref-section">
+        <div class="ref-hdr">رموز الحالات الأمنية</div>
+        <div class="ref-row"><span class="ref-code">10-1</span><div><div class="ref-meaning">الحالة الأمنية</div><div class="ref-en">Security Status</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-2</span><div><div class="ref-meaning">الحالة الأمنية جيدة</div><div class="ref-en">Security Status is Good</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-3</span><div><div class="ref-meaning">توجد ملاحظة أمنية</div><div class="ref-en">There is a Security Issue</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-4</span><div><div class="ref-meaning">تم الاستلام وفهم الإشارة</div><div class="ref-en">Copy That / Received</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-5</span><div><div class="ref-meaning">يرجى إعادة الإشارة</div><div class="ref-en">Repeat the Signal</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-6</span><div><div class="ref-meaning">مشغول حالياً</div><div class="ref-en">Busy</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-7</span><div><div class="ref-meaning">خارج نطاق الخدمة</div><div class="ref-en">Out of Service</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-8</span><div><div class="ref-meaning">تأكيد الموقع الحالي</div><div class="ref-en">Confirm Your Location</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-9</span><div><div class="ref-meaning">التوجه للموقع</div><div class="ref-en">I'm Heading to the Site</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-10</span><div><div class="ref-meaning">تم الوصول للموقع</div><div class="ref-en">Arrived at the Site</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-11</span><div><div class="ref-meaning">تم الإنهاء من الحالة</div><div class="ref-en">The Case is Closed</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-12</span><div><div class="ref-meaning">تواصل عبر الجوال</div><div class="ref-en">Call Me by Phone</div></div></div>
+        <div class="ref-row"><span class="ref-code">10-13</span><div><div class="ref-meaning">طلب استراحة 15 دقيقة</div><div class="ref-en">Need a Rest</div></div></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-hdr">رموز القيادة</div>
+        <div class="ref-row"><span class="ref-code">SCC</span><div><div class="ref-meaning">مركز العمليات الأمنية</div><div class="ref-en">Security Control Center</div></div></div>
+        <div class="ref-row"><span class="ref-code">SBF 1</span><div><div class="ref-meaning">مدير الإدارة الأمنية</div><div class="ref-en">Head of Department</div></div></div>
+        <div class="ref-row"><span class="ref-code">Alpha 1</span><div><div class="ref-meaning">مدير المشروع / الموقع</div><div class="ref-en">Project / Site Manager</div></div></div>
+        <div class="ref-row"><span class="ref-code">0-Bravo</span><div><div class="ref-meaning">مشرف عام (Zero Bravo)</div><div class="ref-en">Shift Senior Supervisor</div></div></div>
+        <div class="ref-row"><span class="ref-code">01</span><div><div class="ref-meaning">Area Supervisor — قائد المنطقة</div><div class="ref-en">Area Supervisor</div></div></div>
+        
+      </div>
+    </div>
+    <div id="ref-locations" style="display:none">
+      <div class="ref-section">
+        <div class="ref-hdr">المنطقة الشمالية — North Area</div>
+        <div class="ref-row"><span class="ref-code">North Gate</span><div><div class="ref-meaning">البوابة الشمالية</div><div class="ref-en">North Security Gate</div></div></div>
+        <div class="ref-row"><span class="ref-code">N Basecamp</span><div><div class="ref-meaning">القاعدة الشمالية</div><div class="ref-en">North Basecamp</div></div></div>
+        <div class="ref-row"><span class="ref-code">P-12</span><div><div class="ref-meaning">الطريق الرئيسي + مواقف + سياج</div><div class="ref-en">North Main Road + Parking</div></div></div>
+        <div class="ref-row"><span class="ref-code">P-13</span><div><div class="ref-meaning">مكاتب الموقع + مستودع + تقاطع</div><div class="ref-en">Site Offices + Warehouse</div></div></div>
+        <div class="ref-row"><span class="ref-code">T-11</span><div><div class="ref-meaning">تريكي 11</div><div class="ref-en">Security Trikke 11</div></div></div>
+        <div class="ref-row"><span class="ref-code">T-12</span><div><div class="ref-meaning">تريكي 12</div><div class="ref-en">Security Trikke 12</div></div></div>
+        <div class="ref-row"><span class="ref-code">T-13</span><div><div class="ref-meaning">تريكي 13</div><div class="ref-en">Security Trikke 13</div></div></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-hdr">المنطقة الجنوبية — South Area</div>
+        <div class="ref-row"><span class="ref-code">South Gate</span><div><div class="ref-meaning">البوابة الجنوبية</div><div class="ref-en">South Security Gate</div></div></div>
+        <div class="ref-row"><span class="ref-code">S Basecamp</span><div><div class="ref-meaning">القاعدة الجنوبية</div><div class="ref-en">South Basecamp</div></div></div>
+        <div class="ref-row"><span class="ref-code">P-14</span><div><div class="ref-meaning">الطريق الرئيسي الجنوبي</div><div class="ref-en">South Main Road + Parking</div></div></div>
+        <div class="ref-row"><span class="ref-code">T-6</span><div><div class="ref-meaning">جبل الدراجات + مسار المشاة</div><div class="ref-en">Mountain Bike + Hiking Trails</div></div></div>
+      </div>
+    </div>
+    <div id="ref-authority" style="display:none">
+      <div class="ref-section">
+        <div class="ref-hdr">الجهات الحكومية — Local Authority</div>
+        <div class="ref-row"><span class="ref-code">Code 10</span><div><div class="ref-meaning">الشرطة</div><div class="ref-en">Police</div></div></div>
+        <div class="ref-row"><span class="ref-code">Code 11</span><div><div class="ref-meaning">المرور</div><div class="ref-en">Traffic Police</div></div></div>
+        <div class="ref-row"><span class="ref-code">Code 12</span><div><div class="ref-meaning">الدفاع المدني</div><div class="ref-en">Civil Defense</div></div></div>
+        <div class="ref-row"><span class="ref-code">Code 13</span><div><div class="ref-meaning">نجم</div><div class="ref-en">Najm</div></div></div>
+        <div class="ref-row"><span class="ref-code">Code 14</span><div><div class="ref-meaning">الهلال الأحمر / الإسعاف</div><div class="ref-en">Red Crescent / Ambulance</div></div></div>
+        <div class="ref-row"><span class="ref-code">Code 15</span><div><div class="ref-meaning">جهة إعلامية / قناة تلفزيونية</div><div class="ref-en">Press / TV Channels</div></div></div>
+        <div class="ref-row"><span class="ref-code">Code 16</span><div><div class="ref-meaning">البحث الجنائي — وزارة الداخلية</div><div class="ref-en">MOI</div></div></div>
+      </div>
+    </div>
+  </div>
+  
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+<div class="bot-nav">
+    <button class="nav-btn" onclick="navTo('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</button>
+    <button class="nav-btn" onclick="navTo('schedule')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول</button>
+    <button class="nav-btn active" onclick="navTo('reference')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>الرموز</button>
+    <button class="nav-btn" onclick="navTo('emergency')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>طوارئ</button>
+    <button class="nav-btn" onclick="navTo('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>نماذج</button>
+  </div>
+</div>
+
+<!-- EMERGENCY -->
+<div id="screen-emergency" class="screen">
+  <div class="hdr" style="background:var(--red)"><div class="hdr-top"><h1>🚨 رموز الطوارئ</h1></div><div class="hdr-sub">Emergency Codes</div></div>
+  <div class="content">
+    <div class="alert alert-d">⚠️ عند أي حادثة: أبلغ SCC فوراً + أبلغ المشرف ومساعده ثم اتبع إجراءات الكود المناسب</div>
+    <div class="ref-section">
+      <div class="ref-hdr" style="background:var(--red)">رموز الطوارئ</div>
+      <div class="ref-row"><span class="code-pill" style="background:#ffc107;color:#000">Code Yellow</span><div><div class="ref-meaning">مشاجرة</div><div class="ref-en">Fighting Incident</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#795548;color:#fff">Code Brown</span><div><div class="ref-meaning">تحرش</div><div class="ref-en">Harassment Incident</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#212121;color:#fff">Code Black</span><div><div class="ref-meaning">عمليات إرهابية / أسلحة</div><div class="ref-en">Terrorist Acts</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#e53935;color:#fff">Code Red</span><div><div class="ref-meaning">حريق</div><div class="ref-en">Fire Incident</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#1565c0;color:#fff">Code Blue</span><div><div class="ref-meaning">إصابات خطيرة أو وفاة</div><div class="ref-en">Serious Injuries or Death</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#f5f5f5;color:#333;border:1px solid #ccc">Code White</span><div><div class="ref-meaning">أشخاص مفقودون</div><div class="ref-en">Missing Person</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#757575;color:#fff">Code Gray</span><div><div class="ref-meaning">مفقودات أو موجودات</div><div class="ref-en">Missing Item</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#e65100;color:#fff">Code Orange</span><div><div class="ref-meaning">إغلاق المنطقة</div><div class="ref-en">Area Closure</div></div></div>
+      <div class="ref-row"><span class="code-pill" style="background:#2e7d32;color:#fff">Code Green</span><div><div class="ref-meaning">فتح المنطقة بعد الإغلاق</div><div class="ref-en">Area Opening</div></div></div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-hdr" style="background:var(--red)">خطوات التصرف عند الحادث</div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 1</div><div style="font-size:12px">تأكد من سلامتك أولاً</div></div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 2</div><div style="font-size:12px">تأكد من سلامة الزائر</div></div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 3</div><div style="font-size:12px">أبلغ SCC فوراً بالكود المناسب عبر اللاسلكي</div></div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 4</div><div style="font-size:12px">أبلغ المشرف ومساعده فوراً عبر اللاسلكي</div></div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 5</div><div style="font-size:12px">أبعد الزوار عن منطقة الحادث</div></div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 6</div><div style="font-size:12px">لا تتصرف منفرداً — انتظر توجيهات المشرف</div></div>
+      <div class="ref-row" style="flex-direction:column;align-items:flex-start;gap:4px;border-bottom:none"><div style="font-size:13px;font-weight:600;color:var(--red)">الخطوة 7</div><div style="font-size:12px">وثّق الحادث فور انتهائه </div></div>
+    </div>
+  </div>
+  
+    <div class="footer"><strong>Waleed Abdullah Almutairi</strong> | English Speaker</div>
+<div class="bot-nav">
+    <button class="nav-btn" onclick="navTo('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</button>
+    <button class="nav-btn" onclick="navTo('schedule')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول</button>
+    <button class="nav-btn" onclick="navTo('reference')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>الرموز</button>
+    <button class="nav-btn active" onclick="navTo('emergency')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>طوارئ</button>
+    <button class="nav-btn" onclick="navTo('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>نماذج</button>
+  </div>
+</div>
+
+<script>
+// ─── SCHEDULE DATA ───
+// Cycle: Morning(6), Off(2), Afternoon(6), Off(2), Night(6), Off(2) = 24 days
+// pos 0-5: Morning, 6-7: Off, 8-13: Afternoon, 14-15: Off, 16-21: Night, 22-23: Off
+// Jan 1, 2026 starting positions (verified against known dates)
+var scheduleStartPos = {A:10, B:4, C:22, D:16};
+var MONTHS_AR = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+var DAYS_AR = ['أحد','اثن','ثلا','أرب','خمس','جمع','سبت'];
+var HOLIDAYS = {
+  '2026-02-22':'يوم التأسيس',
+  '2026-03-20':'عيد الفطر',
+  '2026-03-21':'عيد الفطر',
+  '2026-03-22':'عيد الفطر',
+  '2026-05-26':'يوم عرفة',
+  '2026-05-26':'عيد الأضحى',
+  '2026-05-27':'عيد الأضحى',
+  '2026-05-28':'عيد الأضحى',
+  '2026-06-16':'رأس السنة الهجرية',
+  '2026-09-23':'اليوم الوطني'
+};
+var POS_LABEL = ['ليل','ليل','صباح','صباح','عصر','عصر','إجازة','إجازة'];
+var POS_CLASS = ['night','night','morning','morning','afternoon','afternoon','off','off'];
+
+function getShiftForDate(shiftName, year, month, day) {
+  var start = new Date(2026,0,1);
+  var d = new Date(year, month, day);
+  var diff = Math.round((d - start) / 86400000);
+  if(diff < 0 || year !== 2026) return null;
+  var rawPos = ((scheduleStartPos[shiftName] + diff) % 24 + 24) % 24;
+  var label, cls;
+  if(rawPos <= 5)       { label='صباح';   cls='morning'; }
+  else if(rawPos <= 7)  { label='إجازة';  cls='off'; }
+  else if(rawPos <= 13) { label='عصر';    cls='afternoon'; }
+  else if(rawPos <= 15) { label='إجازة';  cls='off'; }
+  else if(rawPos <= 21) { label='ليل';    cls='night'; }
+  else                  { label='إجازة';  cls='off'; }
+  return {pos:rawPos, label:label, cls:cls};
+}
+
+var curShift = 'B';
+var curMonth = new Date().getMonth();
+if(curMonth < 0 || curMonth > 11) curMonth = 0;
+
+function renderShiftSel() {
+  var el = document.getElementById('shift-sel');
+  var html = '';
+  ['A','B','C','D'].forEach(function(s) {
+    html += '<div class="shift-btn'+(s===curShift?' active':'')+'" onclick="selectShift(\''+s+'\')">'
+      +'<div class="s-name">Shift '+s+'</div>'
+      +'<div class="s-desc">الوردية '+s+'</div>'
+      +'</div>';
+  });
+  el.innerHTML = html;
+}
+
+function selectShift(s) {
+  curShift = s;
+  renderShiftSel();
+  renderCal();
+}
+
+function renderCal() {
+  document.getElementById('month-title').textContent = MONTHS_AR[curMonth] + ' 2026';
+  var firstDay = new Date(2026, curMonth, 1).getDay();
+  var daysInMonth = new Date(2026, curMonth+1, 0).getDate();
+  var today = new Date();
+  var todayStr = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var html = '<div class="cal-grid"><div class="cal-dow">';
+  DAYS_AR.forEach(function(d){ html += '<div>'+d+'</div>'; });
+  html += '</div><div class="cal-days">';
+  for(var i=0;i<firstDay;i++) html += '<div class="cal-day empty"></div>';
+  for(var d=1;d<=daysInMonth;d++) {
+    var s = getShiftForDate(curShift, 2026, curMonth, d);
+    var dateKey = '2026-'+(curMonth+1)+'-'+d;
+    var hol = HOLIDAYS[('2026-'+String(curMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'))];
+    var isToday = (today.getFullYear()===2026 && today.getMonth()===curMonth && today.getDate()===d);
+    html += '<div class="cal-day'+(isToday?' today':'')+'">';
+    html += '<span class="dn">'+d+'</span>';
+    if(s) html += '<span class="ds '+s.cls+'">'+s.label+'</span>';
+    if(hol) html += '<div class="dh">'+hol+'</div>';
+    html += '</div>';
+  }
+  html += '</div></div>';
+  document.getElementById('cal-container').innerHTML = html;
+}
+
+function prevMonth(){ if(curMonth>0){curMonth--;renderCal();} }
+function nextMonth(){ if(curMonth<11){curMonth++;renderCal();} }
+
+// ─── NAV ───
+var histStack = [];
+var curScreen = 'home';
+function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('screen-'+id).classList.add('active'); window.scrollTo(0,0); curScreen=id; }
+function navTo(id){ histStack=[]; if(id==='schedule'){showScreen('schedule');renderShiftSel();renderCal();return;} if(id==='reference'){showScreen('reference');return;} if(id==='emergency'){showScreen('emergency');return;} if(id==='reports'){showScreen('reports');renderReportsList();return;} showScreen('home');renderHome(); }
+function goBack(){ if(histStack.length>0){showScreen(histStack.pop());}else{showScreen('home');} }
+function pushGo(id){ histStack.push(curScreen); showScreen(id); }
+
+// ─── MODULES ───
+var completed={};
+var generalModules=[
+  {id:0,icon:'🛡️',color:'#e8f5ed',title:'أمن وحراسة المنتزه',desc:'المسؤوليات والسلوك المهني',steps:[
+    {t:'الدور الأساسي',b:'أنت خط الدفاع الأول في منتزه الرمال الرياضي. مهمتك حماية الزوار وضمان سير العمل بانتظام وإبلاغ أي مخالفة أو حادثة فوراً لمسؤولك المباشر.'},
+    {t:'مناطق المسؤولية',b:'تشمل مسؤوليتك نقطة تمركزك المحددة من المشرف. لا تتركها بدون إذن مسبق.'},
+    {t:'السلوك المهني',b:'الالتزام بالزي الرسمي كاملاً في كل الأوقات بما يشمل الشوز الأسود والكاب. التحية للزوار بأسلوب محترم. عدم استخدام الجوال الشخصي أثناء الخدمة إلا للعمل.'},
+    {t:'التقارير والإبلاغ',b:'أي حادثة مهما كانت بسيطة تُبلَّغ فوراً للمشرف المباشر. دوّن الوقت والمكان. لا تتصرف منفرداً في الحوادث الكبيرة.'},
+    {t:'الاستلام والتسليم',b:'الحضور قبل الوردية بـ 15 دقيقة إلزامي. قبل انتهاء ورديتك تأكد من تسليم موقعك للموظف القادم. الانسحاب قبل وصول البديل غير مقبول ويستوجب المحاسبة.'},
+    {warn:'ترك الموقع بدون إذن مسبق مخالفة إدارية صريحة تستوجب المحاسبة الفورية — بدون استثناء.'}
+  ]},
+  {id:1,icon:'🚨',color:'#fdecea',title:'التعامل مع الحوادث والطوارئ',desc:'الإجراءات الصحيحة عند الحادث',steps:[
+    {t:'أول 60 ثانية عند الحادث',b:'1. تأكد من سلامتك أولاً.\n2. تأكد من سلامة الزائر.\n3. أبلغ SCC فوراً بالكود المناسب عبر اللاسلكي.\n4. أبلغ المشرف ومساعده فوراً.\n5. لا تحرّك المصاب إلا إذا كان في خطر داهم.\n6. أبعد الزوار عن المنطقة.'},
+    {t:'رموز الطوارئ الأساسية',b:'Code Blue = إصابة خطيرة أو وفاة\nCode Red = حريق\nCode Yellow = مشاجرة\nCode Black = تهديد أمني\nارجع لصفحة الطوارئ للقائمة الكاملة.'},
+    {t:'الإسعافات الأولية',b:'إذا كان المصاب واعياً: حافظ على هدوئه وطمأنه.\nإذا كان فاقداً للوعي: تأكد من فتح مجرى الهواء ولا تعطه ماء أو طعام. انتظر المختصين.'},
+    {t:'التعامل مع الزوار المتضررين',b:'تعامل باحترام وهدوء تام. لا تعد أحداً بأي تعويض. لا تصرّح لوسائل الإعلام (Code 15). وجّه أي استفسار لمسؤولك المباشر فقط.'},
+    {t:'توثيق الحادث',b:'بعد انتهاء الحادث: اكتب تقريراً فورياً يشمل الوقت، المكان، طبيعة الحادث، والإجراءات المتخذة. سلّمه لمشرفك .'},
+    {warn:'ممنوع نشر أي صور أو فيديوهات للحوادث على وسائل التواصل الاجتماعي — مخالفة صريحة.'}
+  ]},
+  {id:2,icon:'👥',color:'#e8f4fb',title:'التعامل مع الزوار',desc:'مهارات التواصل وخدمة الزوار',steps:[
+    {t:'الاستقبال الصحيح',b:'رحّب بكل زائر بابتسامة وعبارة ترحيب مختصرة. الزائر يحكم على المنتزه كله من خلال تعاملك معه في أول لحظة.'},
+    {t:'الإجابة على الاستفسارات',b:'إذا كنت تعرف الإجابة: أجب بثقة وبشكل مختصر. إذا لم تكن تعرف: قل "سأتحقق لك الآن" وتواصل مع مشرفك. لا تخمّن أبداً.'},
+    {t:'التعامل مع الزائر الغاضب',b:'1. استمع كاملاً دون مقاطعة.\n2. أبدِ تفهمك: "أفهم استياءك".\n3. لا ترفع صوتك أبداً.\n4. إذا تصاعد الأمر استدعِ مشرفك فوراً ولا تتجادل.'},
+    {t:'التعامل مع ذوي الاحتياجات الخاصة',b:'بادر بتقديم المساعدة باحترام. اسأل "كيف أقدر أساعدك؟" قبل التصرف. لا تستعجلهم.'},
+    {t:'المواقف الصعبة',b:'إذا رفض زائر الالتزام بالتعليمات: أخبره بالسبب بهدوء مرة واحدة. إذا استمر: أبلغ مشرفك فوراً ولا تدخل في مواجهة مباشرة.'},
+    {tip:'الابتسامة والصوت الهادئ يحلّان 80% من المشكلات قبل أن تكبر.'}
+  ]},
+  {id:3,icon:'🚪',color:'#fef9e7',title:'إجراءات البوابات',desc:'ضبط حركة الدخول والخروج',steps:[
+    {t:'أنواع البوابات',b:'البوابة الشمالية (North Gate): للسيارات والدراجات فقط — ممنوع دخول المشاة مطلقاً.\nالبوابة الجنوبية (South Gate): مفتوحة للسيارات والدراجات والمشاة.'},
+    {t:'توجيه راكبي الدراجات',b:'راكب الدراجة الذي يصل للبوابة الشمالية: وجّهه فوراً لمسار الدراجات — لا يدخل من مسار السيارات.'},
+    
+    {t:'التحقق من اللوحات والتصاريح',b:'كل سيارة تدخل: تحقق من لوحة المرور الأمامية والخلفية.\nبدون لوحة أو عندها بلاغ فقدان = ممنوع الدخول فوراً مع إبلاغ المشرف.'},
+    {t:'مواعيد فتح الموقع للزوار',b:'الشتوي: 5:00 صباحاً حتى 1:00 صباحاً.\nالصيفي: 5:00 صباحاً حتى 10:00 صباحاً، ثم يُغلق ويُفتح من 3:00 عصراً حتى 1:00 صباحاً.\n⚠️ هذه المواقيت قابلة للتغيير بقرار من مدير الأمن العام.\nعند الإغلاق: أخلِ الزوار وأبقَ في موقعك حتى يصلك أمر من المشرف.'},
+    
+  ]},
+  {id:4,icon:'⛰️',color:'#f0faf4',title:'السلامة الشخصية',desc:'حماية نفسك أثناء العمل',steps:[
+    {t:'ملابس وتجهيزات العمل',b:'الزي الرسمي كامل + شوز أسود فقط + حذاء مناسب للتضاريس. احمل: البرافو مشحون وأي معدات تُكلَّف بها.'},
+    {t:'معرفة الموقع الجغرافي',b:'تعرّف على نقاط التمركز برمزها في اللاسلكي. احفظ رمز موقعك واستخدمه عند كل تواصل مع SCC أو المشرف.'},
+    {t:'التعامل مع الطقس',b:'تجنّب المناطق المكشوفة عند الريح الشديدة. عند الأمطار ابتعد عن الوديان فوراً وأبلغ مشرفك.'},
+    {t:'علامات الإجهاد الحراري',b:'دوار، صداع شديد، أو توقف التعرق في الحر = توقف فوراً في الظل وتواصل مع مشرفك فوراً. الإجهاد الحراري خطير.'},
+    {t:'التواصل في المناطق ضعيفة الإشارة',b:'تحرك لمنطقة أعلى للحصول على إشارة. لا تعمل منفرداً في مناطق معزولة.'},
+    {warn:'تنبيه: الإصابات تحدث فجأة. استعداد 5 دقائق قبل بدء الجولة يمنع 90% من المشاكل.'}
+  ]}
+];
+
+var locations={
+  north:[
+    {id:'ngate',name:'North Gate',nameAr:'البوابة الشمالية',code:'North Gate',desc:'للسيارات والدراجات فقط',duties:[
+      {t:'التوزيع',b:'موظف خارجي: يستقبل السيارات ويتحقق من اللوحات والتصاريح.\nموظف داخلي: يسجل ويتواصل عبر اللاسلكي.'},
+      {t:'مهام الخارجي',b:'1. يوقف كل سيارة.\n2. يتحقق من لوحة المرور (أمامية + خلفية).\n3. يوجّه راكبي الدراجات لمسار الدراجات — لا مسار السيارات.\n4. يتحقق من تصاريح الموظفين والعاملين.\n⚠️ ممنوع دخول المشاة من البوابة الشمالية مطلقاً.'},
+      {t:'مهام الداخلي',b:'1. يسجل عدد السيارات والزوار.\n2. يوثق حالات الرفض مع السبب والوقت.\n3. يتواصل مع المشرف عبر اللاسلكي.\n4. يرفع تقرير على قروب العمليات.'},
+      {t:'حالة السيارة بدون لوحة',b:'1. أوقف السيارة.\n2. أبلغ الداخلي فوراً.\n3. الداخلي يتواصل مع المشرف عبر اللاسلكي.\n4. لا تسمح بالدخول حتى تصلك موافقة المشرف.\n5. وثّق الحادثة بالوقت ورقم السيارة.'},
+      {t:'التواصل',b:'إشارتك: North Gate\nتواصل مع: Area Name 01\nللحالات الكبيرة: 0-Bravo\nمركز العمليات: SCC\nللراحة: 10-13'},
+      {warn:'ممنوع السماح لأي سيارة بالدخول بدون التحقق الكامل من اللوحة والتصاريح.'}
+    ]},
+    {id:'p12',name:'P-12',nameAr:'الطريق الرئيسي + مواقف',code:'P-12',desc:'ثابتة (مدخل الشركات) + متحركة',duties:[
+      {t:'التوزيع',b:'سيارة ثابتة: عند الدخل الخاص بالشركات بعيداً عن الزوار.\nسيارة متحركة: تمشط الموقع الكامل وتتبع توجيهات المشرف.\nيتم التغيير بين الأدوار كل فترة يحددها المشرف.'},
+      {t:'مهام الثابتة',b:'1. التحقق من تصاريح سيارات الشركات الداخلة.\n2. لا يُسمح بدخول أي سيارة شركة بدون تصريح.\n3. رفع تقرير للمشرف عند أي ملاحظة.'},
+      {t:'مهام المتحركة',b:'1. اتباع توجيهات المشرف ومساعده.\n2. توجيه السيارات المسرعة لتخفيف السرعة.\n3. متابعة أي سيارة تم منعها.\n4. إخراج السيارات من مواقف الموظفين.\n5. الاستجابة الفورية لأي بلاغ من SCC.'},
+      {t:'استلام السيارة',b:'السيارة تدور بين 3 ورديات. عند الاستلام:\n1. افحص السيارة خارجياً وداخلياً.\n2. ارفع أي ملاحظات على قروب العمليات واللاسلكي.\n3. أكّد الاستلام رسمياً.'},
+      {t:'التواصل',b:'إشارتك: P-12\nتواصل مع: Area Name 01\nللطوارئ: SCC + 0-Bravo'},
+      {tip:'أولوية المتحركة: السلامة أولاً ثم الأمن ثم النظام.'}
+    ]},
+    {id:'p13',name:'P-13',nameAr:'مكاتب الموقع + مستودع',code:'P-13',desc:'ثابتة + متحركة',duties:[
+      {t:'التوزيع',b:'سيارة ثابتة: عند تقاطع مكاتب الموقع والمستودع.\nسيارة متحركة: تمشط المنطقة وتتبع توجيهات المشرف.'},
+      {t:'مهام الثابتة',b:'1. التحقق من تصاريح الداخلين لمكاتب الموقع والمستودع.\n2. سيارات الشركات تحتاج تصريح مسبق.\n3. رفع أي ملاحظة للمشرف فوراً.'},
+      {t:'مهام المتحركة',b:'1. اتباع توجيهات المشرف.\n2. مراقبة حركة السير.\n3. منع الوقوف في المناطق المحظورة.\n4. الاستجابة الفورية لأي بلاغ.'},
+      {t:'استلام السيارة',b:'عند الاستلام: افحص السيارة وارفع أي ملاحظات على قروب العمليات واللاسلكي قبل بدء الجولة.'},
+      {t:'التواصل',b:'إشارتك: P-13\nتواصل مع: Area Name 01\nللطوارئ: SCC + 0-Bravo'}
+    ]},
+    {id:'nbasecamp',name:'North Basecamp',nameAr:'القاعدة الشمالية',code:'N Basecamp',desc:'تمشيط ومراقبة المرافق',duties:[
+      {t:'مرافق Base Camp North',b:'محلات إيجار درجات، قهوة، دورات مياه، غرف تغيير ملابس، مسجد للرجال ومصلى للنساء.'},
+      {t:'التمشيط والمراقبة',b:'1. تمشيط كامل المنطقة بانتظام.\n2. التأكد من خلو المنطقة من الأعطال.\n3. مراقبة المرافق والتأكد من سلامتها.\n4. ملاحظة أي سلوك مريب وإبلاغ المشرف.'},
+      {t:'التحقق من تصاريح العمال',b:'كل موظف صيانة أو نظافة يجب أن يحمل تصريح عمل.\nفي حال غيابه: أوقف العمل وأبلغ المشرف فوراً.'},
+      {t:'رفع تقارير الأعطال',b:'أي عطل أو كسر:\n1. وثّقه (الموقع، نوع العطل، الوقت).\n2. ارفعه على قروب العمليات.\n3. إذا كان خطيراً: أغلق المنطقة وأبلغ المشرف.'},
+      {t:'التواصل',b:'إشارتك: N Basecamp\nتواصل مع: Area Name 01 وSCC'},
+      {tip:'Base Camp هو مركز خدمات الزوار — نظافته ومظهره يعكسان صورة المنتزه.'}
+    ]},
+    {id:'trekky',name:'Trekky (T-11/T-12/T-13)',nameAr:'مضمار الدراجات',code:'T-11 / T-12 / T-13',desc:'تمشيط بالسكوتر الأمني',duties:[
+      {t:'الأجهزة المتاحة',b:'تريكي 11 (T-11)، تريكي 12 (T-12)، تريكي 13 (T-13).\nفي الغالب يُستخدم جهاز واحد، وأحياناً اثنان حسب الحاجة وتوجيه المشرف.'},
+      {t:'الأنشطة المسموحة',b:'مسار المحترفين: دراجات هوائية فقط — ممنوع منعاً باتاً دخول المشاة أو أي نشاط آخر.\nوادي لوب: مسموح — دراجات، سكيت بورد، سكوترات، دراجات ثلاثية.'},
+      {t:'استلام السكوتر',b:'1. افحص السكوتر: الشحن، الفرامل، الأضواء.\n2. ارفع أي ملاحظات على قروب العمليات واللاسلكي.\n3. لا تبدأ الجولة حتى تؤكد سلامة السكوتر.'},
+      {t:'مهام التمشيط',b:'1. تمشيط المضمار بانتظام طوال الوردية.\n2. توجيه الزوار للمسار الصحيح.\n3. رفع ملاحظات المسار: كسور، أنوار معطلة، تراكم رمل.\n4. منع أي شخص من دخول المسار المحظور عليه.'},
+      {t:'عند وقوع إصابة',b:'1. توقف عند المصاب فوراً.\n2. تأكد من سلامته.\n3. ارفع إشارة لـ SCC والمشرف ومساعده.\n4. Code Blue إذا إصابة خطيرة.\n5. لا تحرك المصاب — أبعد الزوار.'},
+      {t:'التواصل',b:'إشارتك: T-11 أو T-12 أو T-13 حسب الجهاز\nتواصل مع: SCC + Area Name 01\nللطوارئ: 0-Bravo + Code المناسب'},
+      {warn:'أي شخص يدخل مسار المحترفين بدون دراجة: يُخرج فوراً بأسلوب مهني ويُبلَّغ المشرف.'}
+    ]}
+  ],
+  south:[
+    {id:'sgate',name:'South Gate',nameAr:'البوابة الجنوبية',code:'South Gate',desc:'للسيارات والدراجات والمشاة',duties:[
+      {t:'التوزيع',b:'موظف خارجي: يستقبل السيارات ويتحقق من اللوحات والتصاريح.\nموظف داخلي: يسجل ويتواصل عبر اللاسلكي.'},
+      {t:'مهام الخارجي',b:'1. يوقف كل سيارة.\n2. يتحقق من لوحة المرور (أمامية + خلفية).\n3. يتحقق من تصاريح الموظفين والعاملين.\n✅ المنطقة الجنوبية تسمح بالسيارات والدراجات والمشاة.'},
+      {t:'مهام الداخلي',b:'1. يسجل عدد السيارات والزوار.\n2. يوثق حالات الرفض مع السبب والوقت.\n3. يتواصل مع المشرف عبر اللاسلكي (10-13 للراحة).\n4. يرفع تقرير على قروب العمليات.'},
+      {t:'حالة السيارة بدون لوحة',b:'نفس إجراءات البوابة الشمالية:\n1. أوقف السيارة.\n2. أبلغ الداخلي فوراً.\n3. لا تسمح بالدخول حتى موافقة المشرف.'},
+      {t:'التواصل',b:'إشارتك: South Gate\nتواصل مع: Area Name 01\nللحالات الكبيرة: 0-Bravo\nللراحة: 10-13'},
+      {warn:'ممنوع السماح لأي سيارة بالدخول بدون التحقق الكامل من اللوحة والتصاريح.'}
+    ]},
+    {id:'p14',name:'P-14',nameAr:'الطريق الرئيسي الجنوبي',code:'P-14',desc:'ثابتة (مدخل الشركات) + متحركة',duties:[
+      {t:'التوزيع',b:'سيارة ثابتة: عند مدخل الشركات الجنوبي.\nسيارة متحركة: تمشط المنطقة الجنوبية كاملة.\nيتم التغيير بين الأدوار كل فترة يحددها المشرف.'},
+      {t:'مهام الثابتة',b:'1. التحقق من تصاريح سيارات الشركات الداخلة.\n2. لا يُسمح بدخول أي سيارة شركة بدون تصريح.\n3. رفع أي ملاحظة للمشرف فوراً.'},
+      {t:'مهام المتحركة',b:'1. اتباع توجيهات المشرف.\n2. توجيه السيارات المسرعة.\n3. متابعة أي سيارة ممنوعة.\n4. إخراج السيارات من مواقف الموظفين.\n5. الاستجابة الفورية لأي بلاغ.'},
+      {t:'استلام السيارة',b:'عند الاستلام: افحص السيارة وارفع أي ملاحظات على قروب العمليات واللاسلكي.'},
+      {t:'التواصل',b:'إشارتك: P-14\nتواصل مع: Area Name 01\nللطوارئ: SCC + 0-Bravo'}
+    ]},
+    {id:'sbasecamp',name:'South Basecamp',nameAr:'القاعدة الجنوبية',code:'S Basecamp',desc:'تمشيط ومراقبة المرافق',duties:[
+      {t:'مرافق Base Camp South',b:'محلات إيجار درجات، قهوة، دورات مياه، غرف تغيير ملابس، مسجد للرجال ومصلى للنساء.'},
+      {t:'التمشيط والمراقبة',b:'1. تمشيط كامل المنطقة الجنوبية بانتظام.\n2. التأكد من خلو المنطقة من الأعطال.\n3. مراقبة المرافق والتأكد من سلامتها.'},
+      {t:'التحقق من تصاريح العمال',b:'كل موظف صيانة أو نظافة يجب أن يحمل تصريح عمل.\nفي حال غيابه: أوقف العمل وأبلغ المشرف فوراً.'},
+      {t:'رفع تقارير الأعطال',b:'أي عطل أو كسر: وثّقه وارفعه على قروب العمليات. إذا كان خطيراً أغلق المنطقة وأبلغ المشرف.'},
+      {t:'التواصل',b:'إشارتك: S Basecamp\nتواصل مع: Area Name 01 وSCC'},
+      {tip:'Base Camp الجنوبي هو مركز خدمات زوار المنطقة الجنوبية — حافظ على نظافته وأمانه.'}
+    ]},
+    {id:'mtbike',name:'Mount Bike',nameAr:'مضمار جبل الدراجات',code:'T-6',desc:'تمشيط رجلي — جنوبي',duties:[
+      {t:'الأنشطة المسموحة',b:'المنطقة الجنوبية تسمح بنشاطين:\n1. المشي (Hiking Trails)\n2. ركوب الدراجات الهوائية (Mountain Bike)\nممنوع أي نشاط آخر.'},
+      {t:'التمشيط الرجلي',b:'1. تمشيط المسار والمنطقة المحيطة بشكل منتظم.\n2. توجيه الزوار للمسار الصحيح (مشي أو دراجة).\n3. المنطقة أصغر من الشمالية — تأكد من تغطية كل أجزائها.'},
+      {t:'مهام المراقبة',b:'1. ملاحظة أي كسور أو أعطال في المسار.\n2. مراقبة تراكم الرمل على الطريق.\n3. التحقق من سلامة الإضاءة.\n4. رفع جميع الملاحظات على قروب العمليات.'},
+      {t:'عند وقوع إصابة',b:'1. توجّه للمصاب فوراً.\n2. تأكد من سلامته.\n3. ارفع إشارة لـ SCC والمشرف ومساعده.\n4. Code Blue إذا إصابة خطيرة.\n5. لا تحرك المصاب — انتظر فريق الإسعاف.'},
+      {t:'التواصل',b:'إشارتك: T-6\nتواصل مع: SCC + Area Name 01\nللطوارئ: 0-Bravo + Code المناسب'},
+      {warn:'التمشيط الرجلي يتطلب لياقة جيدة. في حال تعبك أو إجهادك: أبلغ مشرفك فوراً ولا تتجاهل الأعراض.'}
+    ]}
+  ]
+};
+
+function renderHome(){
+  var el=document.getElementById('general-modules-list');
+  el.innerHTML='';
+  var done=Object.keys(completed).length;
+  document.getElementById('home-prog').style.width=Math.round(done/generalModules.length*100)+'%';
+  document.getElementById('home-prog-label').textContent=done+' من '+generalModules.length+' وحدات مكتملة';
+  generalModules.forEach(function(m){
+    var isDone=!!completed[m.id];
+    el.innerHTML+='<div class="card" onclick="openModule('+m.id+')" style="'+(isDone?'border-right:3px solid var(--green)':'')+'">'
+      +'<div class="card-row">'
+      +'<div class="card-icon" style="background:'+m.color+'">'+m.icon+'</div>'
+      +'<div class="card-info"><div class="card-title">'+m.title+'</div><div class="card-desc">'+m.desc+'</div></div>'
+      +'<span class="badge '+(isDone?'badge-done':'badge-new')+'">'+(isDone?'✓ مكتمل':'جديد')+'</span>'
+      +'</div></div>';
+  });
+}
+
+function openModule(id){
+  var m=generalModules[id];
+  document.getElementById('mod-title').textContent=m.title;
+  var html='',sn=0;
+  m.steps.forEach(function(s){
+    if(s.warn) html+='<div class="alert alert-w">⚠️ '+s.warn+'</div>';
+    else if(s.tip) html+='<div class="alert alert-t">💡 '+s.tip+'</div>';
+    else { sn++; html+='<div class="step"><div class="step-num">'+sn+'</div><div class="step-body"><div class="step-title">'+s.t+'</div><div class="step-text">'+s.b.replace(/\n/g,'<br>')+'</div></div></div>'; }
+  });
+  html+='<button class="done-btn" onclick="markDone('+id+')">'+(completed[id]?'قرأتها مجدداً ✓':(id+1<generalModules.length?'تم — الوحدة التالية ←':'تم — إكمال التدريب ✓'))+'</button>';
+  document.getElementById('mod-content').innerHTML=html;
+  pushGo('module');
+}
+
+function markDone(id){
+  completed[id]=true;
+  renderHome();
+  if(id+1<generalModules.length) openModule(id+1);
+  else goBack();
+}
+
+function showAreaSelect(){ pushGo('area'); }
+
+function showLocations(area){
+  var locs=locations[area];
+  var title=area==='north'?'North Area — الشمالية':'South Area — الجنوبية';
+  document.getElementById('loc-area-title').textContent=title;
+  var html='';
+  locs.forEach(function(l){
+    html+='<div class="loc-card" onclick="openLocation(\''+area+'\',\''+l.id+'\')">'
+      +'<div class="loc-code">'+l.code+'</div>'
+      +'<div class="loc-info"><div class="loc-name">'+l.name+'</div><div style="font-size:11px;color:var(--muted)">'+l.nameAr+'</div><div class="loc-desc">'+l.desc+'</div></div>'
+      +'<div style="color:var(--muted);font-size:16px">←</div>'
+      +'</div>';
+  });
+  document.getElementById('locations-list').innerHTML=html;
+  pushGo('locations');
+}
+
+function openLocation(area,locId){
+  var loc=locations[area].find(function(l){return l.id===locId;});
+  document.getElementById('loc-title').textContent=loc.name;
+  document.getElementById('loc-code-display').textContent='رمز اللاسلكي: '+loc.code+' — '+loc.nameAr;
+  var html='<div class="alert alert-t">📻 رمزك على اللاسلكي: <strong>'+loc.code+'</strong></div>';
+  var sn=0;
+  loc.duties.forEach(function(d){
+    if(d.warn) html+='<div class="alert alert-w">⚠️ '+d.warn+'</div>';
+    else if(d.tip) html+='<div class="alert alert-t">💡 '+d.tip+'</div>';
+    else { sn++; html+='<div class="step"><div class="step-num">'+sn+'</div><div class="step-body"><div class="step-title">'+d.t+'</div><div class="step-text">'+d.b.replace(/\n/g,'<br>')+'</div></div></div>'; }
+  });
+  document.getElementById('loc-content').innerHTML=html;
+  pushGo('locations');
+}
+
+function refTab(tab,el){
+  document.querySelectorAll('.tabs .tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('ref-10codes').style.display=tab==='10codes'?'block':'none';
+  document.getElementById('ref-locations').style.display=tab==='locations'?'block':'none';
+  document.getElementById('ref-authority').style.display=tab==='authority'?'block':'none';
+}
+
+// Init
+curMonth = new Date().getMonth();
+if(new Date().getFullYear()!==2026) curMonth=0;
+renderHome();
+
+// ─── REPORTS ───
+var today = new Date();
+var days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+var todayDay = days[today.getDay()];
+var todayDate = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
+var todayTime = String(today.getHours()).padStart(2,'0') + ':' + String(today.getMinutes()).padStart(2,'0');
+
+var reports = [
+  {
+    id:'takeover', cat:'استلام وتسليم', icon:'🔄', title:'تقرير استلام وتسليم',
+    fields:[
+      {id:'site',label:'الموقع',type:'select',opts:['North Gate','South Gate','P-12','P-13','P-14','North Basecamp','South Basecamp','Trekky','Mount Bike']},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'receiver',label:'اسم المستلم',type:'text',placeholder:'الاسم الكامل'},
+      {id:'receiver2',label:'اسم المستلم 2 (اختياري)',type:'text',placeholder:''},
+      {id:'sender',label:'اسم المسلّم',type:'text',placeholder:'الاسم الكامل'},
+      {id:'sender2',label:'اسم المسلّم 2 (اختياري)',type:'text',placeholder:''},
+      {id:'device',label:'رقم الجهاز',type:'text',placeholder:'مثال: W452'},
+      {id:'keys',label:'عدد المفاتيح',type:'text',placeholder:''},
+      {id:'security',label:'الحالة الأمنية',type:'select',opts:['10-2','10-3']},
+      {id:'notes',label:'الملاحظات',type:'textarea',placeholder:'لا يوجد'},
+    ],
+    template: (f) => `[ الساند سبورت ]\n[ تقرير استلام وتسليم ]\nالموقع: ${f.site}\nرمز المرسل: ${f.loc_code}\nاليوم: ${f.day}\nالتاريخ: ${f.date}\nالمستلم: ${f.receiver}${f.receiver2?' + '+f.receiver2:''}\nالمسلم: ${f.sender}${f.sender2?' + '+f.sender2:''}\nرقم الجهاز: ${f.device}\nعدد المفاتيح: ${f.keys||'—'}\nالحالة الأمنية: ${f.security}\nالملاحظات: ${f.notes||'لا يوجد'}`
+  },
+  {
+    id:'patrol_p', cat:'تمشيط دورية', icon:'🚗', title:'تقرير تمشيط دورية P',
+    fields:[
+      {id:'site',label:'الدورية',type:'select',opts:['P-12','P-13','P-14']},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'name',label:'الاسم',type:'text',placeholder:'الاسم الكامل'},
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'device',label:'رقم الجهاز',type:'text',placeholder:'مثال: W461'},
+      {id:'security',label:'الحالة الأمنية',type:'select',opts:['10-2','10-3']},
+      {id:'traffic',label:'الحركة المرورية',type:'select',opts:['جيدة','متوسطة','مزدحمة']},
+      {id:'incidents',label:'الحوادث',type:'text',placeholder:'لا يوجد'},
+      {id:'damage',label:'الأضرار',type:'text',placeholder:'لا يوجد'},
+      {id:'notes',label:'ملاحظات أخرى',type:'textarea',placeholder:'تم تمشيط المنطقة بالكامل والحالة الأمنية جيدة'},
+    ],
+    template: (f) => `🚨 تمشيط دورية ${f.site} - SSP 🚨\nالاسم: ${f.name}\nرمز الموقع: ${f.loc_code}\nاليوم: ${f.day}\nالتاريخ: ${f.date}\nرقم الجهاز: ${f.device}\nالحالة الأمنية: ${f.security}\nالحركة المرورية: ${f.traffic}\nالحوادث: ${f.incidents||'لا يوجد'}\nالأضرار: ${f.damage||'لا يوجد'}\nملاحظات: ${f.notes||'لا يوجد'}`
+  },
+  {
+    id:'patrol_trekky', cat:'تمشيط تريكي', icon:'🛵', title:'تقرير تمشيط Trekky',
+    fields:[
+      {id:'name',label:'الاسم',type:'text',placeholder:'الاسم الكامل'},
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'device',label:'رقم الجهاز',type:'text',placeholder:'مثال: T-11'},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'pro',label:'مسار المحترفين',type:'select',opts:['سليم','يوجد ملاحظة']},
+      {id:'najdi',label:'الوردة النجدية',type:'select',opts:['سليم','يوجد ملاحظة']},
+      {id:'beginner',label:'مسار المبتدئين',type:'select',opts:['سليم','يوجد ملاحظة']},
+      {id:'security',label:'الحالة الأمنية',type:'select',opts:['10-2','10-3']},
+      {id:'visitors',label:'كثافة الزوار',type:'select',opts:['لا يوجد','قليل جداً','قليل','متوسط','كثير']},
+      {id:'notes',label:'الملاحظات',type:'textarea',placeholder:'لا يوجد ملاحظات'},
+    ],
+    template: (f) => `🚨 SSP - TREKKY ${f.device} 🚨\nالاسم: ${f.name}\nرمز الموقع: ${f.loc_code}\nاليوم: ${f.day}\nالتاريخ: ${f.date}\nرقم الجهاز: ${f.device}\n🔴 SSP 🔴\n──────────\n🔴 تمشيط 🔴\n🛤️ مسار المحترفين: ${f.pro}\n🛤️ الوردة النجدية: ${f.najdi}\n🛤️ مسار المبتدئين: ${f.beginner}\nالحالة الأمنية: ${f.security}\nكثافة الزوار: ${f.visitors}\nالملاحظات: ${f.notes||'لا يوجد'}`
+  },
+  {
+    id:'takeover_trekky', cat:'استلام وتسليم تريكي', icon:'🔄🛵', title:'تسليم واستلام Trekky',
+    fields:[
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'shift',label:'الوردية',type:'select',opts:['A','B','C','D']},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'receiver',label:'اسم المستلم',type:'text',placeholder:''},
+      {id:'sender',label:'اسم المسلّم',type:'text',placeholder:''},
+      {id:'device',label:'رقم الجهاز',type:'text',placeholder:'مثال: W449'},
+      {id:'t11_safety',label:'T-11: السفاتي',type:'text',placeholder:'سليم / لا تعمل'},
+      {id:'t11_bell',label:'T-11: الجرس',type:'text',placeholder:'سليم / مكسور'},
+      {id:'t11_brake',label:'T-11: الفرامل',type:'text',placeholder:'تعمل / عطلان'},
+      {id:'t11_notes',label:'T-11: ملاحظات',type:'text',placeholder:'لا يوجد'},
+      {id:'t12_safety',label:'T-12: السفاتي',type:'text',placeholder:'سليم / لا تعمل'},
+      {id:'t12_bell',label:'T-12: الجرس',type:'text',placeholder:'سليم / مكسور'},
+      {id:'t12_brake',label:'T-12: الفرامل',type:'text',placeholder:'تعمل / عطلان'},
+      {id:'t12_notes',label:'T-12: ملاحظات',type:'text',placeholder:'لا يوجد'},
+      {id:'t13_safety',label:'T-13: السفاتي',type:'text',placeholder:'سليم / لا تعمل'},
+      {id:'t13_bell',label:'T-13: الجرس',type:'text',placeholder:'سليم / مكسور'},
+      {id:'t13_brake',label:'T-13: الفرامل',type:'text',placeholder:'تعمل / عطلان'},
+      {id:'t13_notes',label:'T-13: ملاحظات',type:'text',placeholder:'لا يوجد'},
+    ],
+    template: (f) => `اليوم: ${f.day}\nالتاريخ: ${f.date}\nالوردية: ${f.shift}\nرمز الموقع: ${f.loc_code}\nالمستلم: ${f.receiver}\nالمسلم: ${f.sender}\nالجهاز: ${f.device}\n──────────\nT-11:\nالسفاتي: ${f.t11_safety||'—'}\nالجرس: ${f.t11_bell||'—'}\nالفرامل: ${f.t11_brake||'—'}\nالملاحظات: ${f.t11_notes||'لا يوجد'}\n──────────\nT-12:\nالسفاتي: ${f.t12_safety||'—'}\nالجرس: ${f.t12_bell||'—'}\nالفرامل: ${f.t12_brake||'—'}\nالملاحظات: ${f.t12_notes||'لا يوجد'}\n──────────\nT-13:\nالسفاتي: ${f.t13_safety||'—'}\nالجرس: ${f.t13_bell||'—'}\nالفرامل: ${f.t13_brake||'—'}\nالملاحظات: ${f.t13_notes||'لا يوجد'}`
+  },
+  {
+    id:'basecamp', cat:'تمشيط Base Camp', icon:'🏕️', title:'تقرير تمشيط Base Camp',
+    fields:[
+      {id:'site',label:'الموقع',type:'select',opts:['North Basecamp','South Basecamp']},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'security',label:'الحالة الأمنية',type:'select',opts:['10-2 جيدة','10-1','10-3']},
+      {id:'device',label:'رقم الجهاز',type:'text',placeholder:'مثال: 463'},
+      {id:'visitors',label:'الزوار',type:'select',opts:['لا يوجد زوار','قليل','متوسط','كثير']},
+      {id:'notes',label:'الملاحظات',type:'textarea',placeholder:'لا يوجد'},
+    ],
+    template: (f) => `تقرير: تمشيط\nالموقع: ${f.site}\nرمز المرسل: ${f.loc_code}\nاليوم: ${f.day}\nالتاريخ: ${f.date}\nالحالة الأمنية: ${f.security}\nرقم الجهاز: ${f.device}\nالزوار: ${f.visitors}\nالملاحظات: ${f.notes||'لا يوجد'}`
+  },
+  {
+    id:'locker', cat:'أعطال', icon:'🔒', title:'تقرير عطل لوكر',
+    fields:[
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'report_time',label:'وقت البلاغ',type:'text',val:todayTime,placeholder:'مثال: 10:30'},
+      {id:'close_time',label:'وقت إغلاق البلاغ',type:'text',placeholder:'مثال: 11:00'},
+      {id:'locker_num',label:'رقم اللوكر',type:'text',placeholder:''},
+      {id:'contents',label:'محتويات اللوكر (وصف الزائر)',type:'text',placeholder:'مثال: حقيبة يد'},
+      {id:'visitor_name',label:'اسم الزائر',type:'text',placeholder:''},
+      {id:'phone',label:'رقم الجوال',type:'text',placeholder:'05XXXXXXXX'},
+      {id:'id_num',label:'رقم الهوية',type:'text',placeholder:''},
+      {id:'result',label:'نتيجة الفتح',type:'select',opts:['تم فتح الخزانة والتأكد من المحتويات ومطابقتها','تعذّر الفتح وتم الإبلاغ للمشرف']},
+    ],
+    template: (f) => `تقرير عطل لوكر\nاليوم: ${f.day}\nالتاريخ: ${f.date}\nالمنطقة: ${f.area}\nالقسم: ${f.section}\nالموقع: ${f.loc_code}\nوقت البلاغ: ${f.report_time}\nوقت إغلاق البلاغ: ${f.close_time||'لا يزال مستمراً'}\nرقم اللوكر: ${f.locker_num}\nمحتويات اللوكر: ${f.contents}\nاسم الزائر: ${f.visitor_name}\nرقم الجوال: ${f.phone}\nرقم الهوية: ${f.id_num}\nالنتيجة: ${f.result}`
+  },
+  {
+    id:'lost_found', cat:'مفقودات', icon:'⚪️', title:'Code Gray — مفقودات',
+    fields:[
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'site',label:'الموقع',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','Trekky','Mount Bike']},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'found_time',label:'وقت العثور على الكود',type:'text',val:todayTime,placeholder:'مثال: 10:43'},
+      {id:'found_how',label:'طريقة العثور',type:'text',placeholder:'مثال: عند منطقة استراحة الزوار'},
+      {id:'item_type',label:'نوع المفقود',type:'text',placeholder:'مثال: خوذة دراجة'},
+      {id:'item_desc',label:'مواصفات المفقود',type:'text',placeholder:'اللون، الشكل، العلامة'},
+      {id:'owner_found',label:'هل صاحب المفقود موجود؟',type:'select',opts:['لا — سيتم إرساله لـ SCC','نعم — تم التسليم']},
+      {id:'owner_name',label:'اسم صاحب المفقود (إن وُجد)',type:'text',placeholder:'اختياري'},
+      {id:'owner_phone',label:'رقم الجوال (إن وُجد)',type:'text',placeholder:'اختياري'},
+      {id:'owner_id',label:'رقم الهوية (إن وُجد)',type:'text',placeholder:'اختياري'},
+    ],
+    template: (f) => `⚪️ CODE GRAY ⚪️ مفقودات\nالتاريخ: ${f.date}\nرمز المرسل: ${f.loc_code}\nاليوم: ${f.day}\nالموقع: ${f.site}\nوقت العثور: ${f.found_time}\nطريقة العثور: ${f.found_how}\nنوع المفقود: ${f.item_type}\nالمواصفات: ${f.item_desc}\n${f.owner_found}${f.owner_name?'\nاسم الزائر: '+f.owner_name:''}${f.owner_phone?'\nالجوال: '+f.owner_phone:''}${f.owner_id?'\nالهوية: '+f.owner_id:''}${f.found_by_name?'\n──────────\nمُسلّم المفقودات:\nالاسم: '+f.found_by_name:''}${f.found_by_phone?'\nالجوال: '+f.found_by_phone:''}${f.found_by_id?'\nالهوية: '+f.found_by_id:''}`
+  },
+  {
+    id:'injury', cat:'حوادث وإصابات', icon:'🔵', title:'Code Blue — تقرير إصابة',
+    fields:[
+      {id:'date',label:'التاريخ',type:'text',val:todayDate},
+      {id:'day',label:'اليوم',type:'text',val:todayDay},
+      {id:'time',label:'وقت الحادث',type:'text',val:todayTime,placeholder:'مثال: 14:30'},
+      {id:'site',label:'الموقع',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','Trekky T-11','Trekky T-12','Trekky T-13','Mount Bike']},
+      {id:'loc_code',label:'رمز موقعك على اللاسلكي',type:'select',opts:['North Gate','South Gate','North Basecamp','South Basecamp','P-12','P-13','P-14','T-11','T-12','T-13','T-6','SCC']},
+      {id:'reporter',label:'اسم المبلّغ',type:'text',placeholder:'اسم الموظف'},
+      {id:'victim_name',label:'اسم المصاب',type:'text',placeholder:''},
+      {id:'victim_phone',label:'رقم جوال المصاب',type:'text',placeholder:'05XXXXXXXX'},
+      {id:'victim_id',label:'رقم هوية المصاب',type:'text',placeholder:''},
+      {id:'victim_age',label:'عمر المصاب',type:'text',placeholder:''},
+      {id:'injury_type',label:'نوع الإصابة',type:'text',placeholder:'مثال: كسر، سقوط، إغماء'},
+      {id:'injury_location',label:'موقع الإصابة على الجسم',type:'text',placeholder:'مثال: الركبة اليمنى'},
+      {id:'action',label:'الإجراء المتخذ',type:'textarea',placeholder:'مثال: تم إبلاغ SCC والفريق الطبي'},
+      {id:'medical',label:'الفريق الطبي',type:'select',opts:['متجه للموقع','وصل للموقع']},
+      {id:'notes',label:'ملاحظات إضافية',type:'textarea',placeholder:''},
+    ],
+    template: (f) => `🔵 CODE BLUE — تقرير إصابة\nالتاريخ: ${f.date}\nرمز المرسل: ${f.loc_code}\nاليوم: ${f.day}\nوقت الحادث: ${f.time}\nالموقع: ${f.site}\nالمبلّغ: ${f.reporter}\nاسم المصاب: ${f.victim_name}\nجوال المصاب: ${f.victim_phone}\nهوية المصاب: ${f.victim_id||'—'}\nعمر المصاب: ${f.victim_age||'—'}\nنوع الإصابة: ${f.injury_type}\nموقع الإصابة: ${f.injury_location}\nالإجراء المتخذ: ${f.action}\nالفريق الطبي: ${f.medical}\nملاحظات: ${f.notes||'لا يوجد'}\n📍 الموقع: ${f.location||'—'}`
+  },
+];
+
+// Load name from URL parameter
+var urlParams = new URLSearchParams(window.location.search);
+var savedEmployeeName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : '';
+
+function promptName() {
+  var current = savedEmployeeName || '';
+  var name = prompt('أدخل اسمك الكامل:', current);
+  if (name !== null && name.trim()) {
+    savedEmployeeName = name.trim();
+    // Build new URL with name
+    var baseUrl = window.location.origin + window.location.pathname;
+    var newUrl = baseUrl + '?name=' + encodeURIComponent(savedEmployeeName);
+    window.history.replaceState({}, '', newUrl);
+    renderReportsList();
+    // Show instructions to save the new link
+    setTimeout(function(){
+      alert('✅ تم حفظ اسمك!\n\nاحفظ هذه الصفحة على شاشتك الرئيسية الآن لتحتفظ باسمك دائماً.\n\nالرابط الخاص بك:\n' + newUrl);
+    }, 300);
+  }
+}
+
+function renderReportsList() {
+  var el = document.getElementById('reports-list');
+  var html = '';
+  // Name banner
+  if (savedEmployeeName) {
+    html += '<div style="background:var(--green-light);border:.5px solid #a8d5b5;border-radius:var(--rs);padding:8px 12px;margin-bottom:1rem;font-size:12px;color:#145029">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center">'
+      + '<span>👤 ' + savedEmployeeName + '</span>'
+      + '<span style="cursor:pointer;color:var(--green);font-weight:600" onclick="promptName()">تغيير</span>'
+      + '</div>'
+      + '<div style="margin-top:6px;font-size:11px;color:#1a5c36;opacity:0.8">✅ اسمك محفوظ في رابطك الشخصي</div>'
+      + '</div>';
+  } else {
+    html += '<div style="background:#fff3cd;border:.5px solid #f0c050;border-radius:var(--rs);padding:12px;margin-bottom:1rem;font-size:12px;color:#7d6008;cursor:pointer" onclick="promptName()">'
+      + '<div style="font-weight:600;margin-bottom:4px">👤 سجّل اسمك</div>'
+      + '<div>اضغط هنا لتسجيل اسمك مرة وحدة — يُحفظ في رابطك ويملأ تلقائياً في كل تقرير</div>'
+      + '</div>';
+  }
+  var cats = [...new Set(reports.map(r => r.cat))];
+  cats.forEach(function(cat) {
+    html += '<div class="report-cat">' + cat + '</div>';
+    reports.filter(r => r.cat === cat).forEach(function(r) {
+      html += '<div class="report-card" onclick="openReport(\'' + r.id + '\')">'
+        + '<div class="report-card-row">'
+        + '<div class="card-icon" style="background:var(--green-light);font-size:20px">' + r.icon + '</div>'
+        + '<div class="card-info"><div class="card-title">' + r.title + '</div></div>'
+        + '<div style="color:var(--muted);font-size:16px">←</div>'
+        + '</div></div>';
+    });
+  });
+  el.innerHTML = html;
+}
+
+function openReport(id) {
+  var r = reports.find(function(x) { return x.id === id; });
+  document.getElementById('report-form-title').textContent = r.title;
+  var html = '';
+  r.fields.forEach(function(f) {
+    // Auto-fill name fields
+    var autoVal = f.val || '';
+    if ((f.id === 'name' || f.id === 'reporter') && savedEmployeeName) {
+      autoVal = savedEmployeeName;
+    }
+    html += '<div class="rfield"><label>' + f.label + '</label>';
+    if (f.type === 'select') {
+      html += '<select id="rf_' + f.id + '"><option value="">اختر...</option>';
+      f.opts.forEach(function(o) { html += '<option value="' + o + '">' + o + '</option>'; });
+      html += '</select>';
+    } else if (f.type === 'textarea') {
+      html += '<textarea id="rf_' + f.id + '" placeholder="' + (f.placeholder||'') + '">' + autoVal + '</textarea>';
+    } else {
+      html += '<input type="text" id="rf_' + f.id + '" placeholder="' + (f.placeholder||'') + '" value="' + autoVal + '">';
+    }
+    html += '</div>';
+  });
+  html += '<div class="preview-box" id="preview-box"></div>';
+  html += '<button class="copy-btn" onclick="generateReport(\'' + id + '\')">📋 توليد التقرير</button>';
+  html += '<button class="copy-text-btn" id="copy-text-btn" style="display:none;width:100%;padding:13px;background:#1a5c36;color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;font-family:inherit" onclick="copyReportText()">📋 نسخ النص</button>';
+  html += '<button class="share-btn" id="share-btn" style="display:none" onclick="shareReport()">📤 مشاركة على واتساب</button>';
+  html += '<button class="reset-btn" onclick="resetReport(\'' + id + '\')">🔄 تصفية الحقول</button>';
+  document.getElementById('report-form-content').innerHTML = html;
+  pushGo('report-form');
+}
+
+var lastReportText = '';
+
+function generateReport(id) {
+  var r = reports.find(function(x) { return x.id === id; });
+  var vals = {};
+  r.fields.forEach(function(f) {
+    var el = document.getElementById('rf_' + f.id);
+    vals[f.id] = el ? el.value.trim() : '';
+  });
+  if (id === 'injury') {
+    // Get location for injury report
+    if (navigator.geolocation) {
+      var btn = document.querySelector('.copy-btn');
+      btn.textContent = '⏳ جاري تحديد الموقع...';
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        var lat = pos.coords.latitude.toFixed(6);
+        var lng = pos.coords.longitude.toFixed(6);
+        vals['location'] = 'https://maps.google.com/?q=' + lat + ',' + lng;
+        finalizeReport(r, vals);
+      }, function() {
+        vals['location'] = 'تعذّر تحديد الموقع';
+        finalizeReport(r, vals);
+      }, {timeout:8000});
+    } else {
+      vals['location'] = 'الجهاز لا يدعم تحديد الموقع';
+      finalizeReport(r, vals);
+    }
+  } else {
+    finalizeReport(r, vals);
+  }
+}
+
+function finalizeReport(r, vals) {
+  var text = r.template(vals);
+  lastReportText = text;
+  var pb = document.getElementById('preview-box');
+  pb.textContent = text;
+  pb.style.display = 'block';
+  var sb = document.getElementById('share-btn');
+  sb.style.display = 'block';
+  var cb = document.getElementById('copy-text-btn');
+  if(cb) cb.style.display = 'block';
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ تم النسخ — جاهز للصق في واتساب';
+    btn.classList.add('copied');
+  }).catch(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ تم توليد التقرير';
+  });
+}
+
+function copyReportText() {
+  navigator.clipboard.writeText(lastReportText).then(function() {
+    var btn = document.getElementById('copy-text-btn');
+    if(btn){ btn.textContent = '✓ تم النسخ'; setTimeout(function(){ btn.textContent = '📋 نسخ النص'; }, 2000); }
+  }).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = lastReportText;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+
+function shareReport() {
+  var encoded = encodeURIComponent(lastReportText);
+  window.open('https://wa.me/?text=' + encoded, '_blank');
+}
+
+function resetReport(id) {
+  openReport(id);
+}
+
+
+</script>
+<!-- REPORTS SCREEN -->
+<div id="screen-reports" class="screen">
+  <div class="hdr"><div class="hdr-top"><h1>📋 نماذج التقارير</h1></div><div class="hdr-sub">اختر النموذج واملأه ثم شاركه على قروب العمليات</div></div>
+  <div class="content">
+    <div id="reports-list"></div>
+  </div>
+  <div class="bot-nav">
+    <button class="nav-btn" onclick="navTo('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</button>
+    <button class="nav-btn" onclick="navTo('schedule')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول</button>
+    <button class="nav-btn" onclick="navTo('reference')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>الرموز</button>
+    <button class="nav-btn" onclick="navTo('emergency')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>طوارئ</button>
+    <button class="nav-btn active" onclick="navTo('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>نماذج</button>
+  </div>
+</div>
+
+<!-- REPORT FORM -->
+<div id="screen-report-form" class="screen">
+  <div class="hdr"><div class="hdr-top"><button class="back-btn" onclick="goBack()">→</button><h1 id="report-form-title"></h1></div></div>
+  <div class="content" id="report-form-content"></div>
+</div>
+
+
+<!-- CONTACT MODAL -->
+<div id="contactModal" class="contact-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="contact-box">
+    <h3>💬 تواصل مع المطور</h3>
+    <a class="contact-item" href="https://wa.me/966590084008" target="_blank">
+      <span style="font-size:20px">📱</span>
+      <span>واتساب — 0590084008</span>
+    </a>
+    <a class="contact-item" href="mailto:w-3a@hotmail.com">
+      <span style="font-size:20px">📧</span>
+      <span>w-3a@hotmail.com</span>
+    </a>
+    <button class="contact-close" onclick="document.getElementById('contactModal').classList.remove('open')">إغلاق</button>
+  </div>
+</div>
+</body>
+</html>
